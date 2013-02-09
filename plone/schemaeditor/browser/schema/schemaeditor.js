@@ -97,7 +97,7 @@
             {
                 subtype: 'ajax',
                 filter: common_content_filter,
-                closeselector: 'input[name=form.buttons.cancel]'
+                closeselector: 'input[name="form.buttons.cancel"]'
             }
         );
 

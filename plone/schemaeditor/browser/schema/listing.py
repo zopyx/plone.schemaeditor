@@ -42,11 +42,6 @@ class SchemaListing(AutoExtensibleForm, form.Form):
             if widget.field.interface is not self.context.schema:
                 widget.disabled = 'disabled'
 
-            # limit size of the preview for text areas
-            if hasattr(widget, 'rows'):
-                if widget.rows is None or widget.rows > 5:
-                    widget.rows = 5
-
         return super(SchemaListing, self).render()
 
     @memoize

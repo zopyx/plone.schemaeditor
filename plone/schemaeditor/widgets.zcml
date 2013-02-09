@@ -1,0 +1,20 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="plone.schemaeditor">
+
+  <adapter
+    factory=".widgets.get_text_widget_schema"
+    provides=".interfaces.IFieldEditorExtender"
+    for=".interfaces.ISchemaContext zope.schema.interfaces.IText"
+    name="widget"
+    />
+
+  <adapter
+    factory=".widgets.TextWidgetParameters"
+    provides=".widgets.ITextWidgetParameters"
+    for="zope.schema.interfaces.IText"
+    />
+
+</configure>

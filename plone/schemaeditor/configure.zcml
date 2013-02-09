@@ -20,5 +20,6 @@
 
     <include file="fields.zcml"/>
     <include package=".browser"/>
+    <include file="widgets.zcml"/>
 
 </configure>
