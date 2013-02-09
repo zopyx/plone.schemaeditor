@@ -43,9 +43,8 @@ class WidgetSettingsAdapter(object):
             raise ValueError('Unrecognized widget factory')
 
     def __getattr__(self, name):
-        import pdb; pdb.set_trace()
         if name in self.schema:
-            return self.widget_factory.params.get(name, self.schema.default)
+            return self.widget_factory.params.get(name, self.schema[name].default)
         raise AttributeError(name)
 
     def __setattr__(self, name, value):
