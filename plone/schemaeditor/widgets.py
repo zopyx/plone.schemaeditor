@@ -17,6 +17,18 @@ def get_text_widget_schema(schema_context, field):
     return ITextWidgetParameters
 
 
+class ISelectWidgetParameters(Interface):
+
+    size = schema.Int(
+        title=_(u'Size'),
+        default=5,
+    )
+
+
+def get_select_widget_schema(schema_context, field):
+    return ISelectWidgetParameters
+
+
 # TODO:
 # - avoid drive-by creation of ParameterizedFieldWidget
 # - be more graceful if field has a custom widget (check bools for example)
@@ -55,3 +67,7 @@ class WidgetSettingsAdapter(object):
 
 class TextWidgetParameters(WidgetSettingsAdapter):
     schema = ITextWidgetParameters
+
+
+class SelectWidgetParameters(WidgetSettingsAdapter):
+    schema = ISelectWidgetParameters

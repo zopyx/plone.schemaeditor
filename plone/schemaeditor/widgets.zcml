@@ -17,4 +17,17 @@
     for="zope.schema.interfaces.IText"
     />
 
+  <adapter
+    factory=".widgets.get_select_widget_schema"
+    provides=".interfaces.IFieldEditorExtender"
+    for=".interfaces.ISchemaContext zope.schema.interfaces.ISet"
+    name="widget"
+    />
+
+  <adapter
+    factory=".widgets.SelectWidgetParameters"
+    provides=".widgets.ISelectWidgetParameters"
+    for="zope.schema.interfaces.ISet"
+    />
+
 </configure>
