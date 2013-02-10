@@ -22,13 +22,15 @@ PMF = MessageFactory('plone')
 
 _marker = object()
 
+
 class IFieldTitle(Interface):
     title = schema.TextLine(
         title=schema.interfaces.ITextLine['title'].title,
         description=schema.interfaces.ITextLine['title'].description,
         default=u"",
         required=True,
-        )
+    )
+
 
 class FieldTitleAdapter(object):
     implements(IFieldTitle)
@@ -39,9 +41,11 @@ class FieldTitleAdapter(object):
 
     def _read_title(self):
         return self.field.title
+
     def _write_title(self, value):
         self.field.title = value
     title = property(_read_title, _write_title)
+
 
 class FieldEditForm(AutoExtensibleForm, form.EditForm):
     implements(IFieldEditForm)
@@ -64,7 +68,8 @@ class FieldEditForm(AutoExtensibleForm, form.EditForm):
     @lazy_property
     def additionalSchemata(self):
         schema_context = self.context.aq_parent
-        return [v for k, v in getAdapters((schema_context, self.field), interfaces.IFieldEditorExtender)]
+        return [v for k, v in getAdapters(
+            (schema_context, self.field), interfaces.IFieldEditorExtender)]
 
     def updateFields(self):
         # use a custom 'title' field to make sure it is required
@@ -73,6 +78,15 @@ class FieldEditForm(AutoExtensibleForm, form.EditForm):
         # omit the order attribute since it's managed elsewhere
         fields += field.Fields(self._schema).omit(
             'order', 'title', 'default', 'missing_value', 'readonly')
+
+        default_field = self.field.__class__.__new__(self.field.__class__)
+        default_field.__dict__.update(self.field.__dict__)
+        default_field.__name__ = 'default'
+        default_field.title = _(u'Default')
+        default_field.interface = self._schema
+        default_field.required = False
+        fields += field.Fields(default_field)
+
         self.fields = fields
 
         self.updateFieldsFromSchemata()
@@ -123,4 +137,6 @@ class EditView(layout.FormWrapper):
 
     @lazy_property
     def label(self):
-        return _(u"Edit Field '${fieldname}'", mapping={'fieldname': self.field.__name__})
+        return _(
+            u"Edit Field '${fieldname}'",
+            mapping={'fieldname': self.field.__name__})

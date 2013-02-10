@@ -6,16 +6,17 @@ from OFS.SimpleItem import SimpleItem
 from plone.schemaeditor.browser.field.edit import EditView
 from plone.schemaeditor.interfaces import IFieldContext
 
+
 class FieldContext(SimpleItem):
     """ wrapper for published zope 3 schema fields
     """
     implements(IFieldContext, IBrowserPublisher)
-    
+
     def __init__(self, context, request):
         super(FieldContext, self).__init__()
         self.field = context
         self.request = request
-        
+
         # make sure breadcrumbs are correct
         self.id = None
         self.__name__ = self.field.__name__
@@ -28,10 +29,10 @@ class FieldContext(SimpleItem):
         if name == self.__name__:
             return EditView(self, request).__of__(self)
 
-        return DefaultPublishTraverse(self, request).publishTraverse(request, name)
+        return DefaultPublishTraverse(self, request).publishTraverse(
+            request, name)
 
     def browserDefault(self, request):
         """ Really we want to show the field EditView.
         """
         return self, ('@@edit',)
-

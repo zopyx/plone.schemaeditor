@@ -31,8 +31,6 @@ def get_select_widget_schema(schema_context, field):
 
 # TODO:
 # - avoid drive-by creation of ParameterizedFieldWidget
-# - be more graceful if field has a custom widget (check bools for example)
-# - why called so much
 
 
 class WidgetSettingsAdapter(object):
@@ -56,7 +54,8 @@ class WidgetSettingsAdapter(object):
 
     def __getattr__(self, name):
         if name in self.schema:
-            return self.widget_factory.params.get(name, self.schema[name].default)
+            return self.widget_factory.params.get(
+                name, self.schema[name].default)
         raise AttributeError(name)
 
     def __setattr__(self, name, value):
