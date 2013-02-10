@@ -8,17 +8,17 @@ from plone.schemaeditor.utils import FieldRemovedEvent
 
 
 class FieldOrderView(BrowserView):
-    
+
     def __init__(self, context, request):
         self.context = context
         self.request = request
         self.field = context.field
         self.schema = context.field.interface
-    
+
     def move(self, pos):
         """ AJAX method to change field position within its schema.
         """
-        
+
         schema = IEditableSchema(self.schema)
         fieldname = self.field.__name__
         schema.moveField(fieldname, int(pos))

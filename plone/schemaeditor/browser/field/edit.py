@@ -22,13 +22,15 @@ PMF = MessageFactory('plone')
 
 _marker = object()
 
+
 class IFieldTitle(Interface):
     title = schema.TextLine(
         title=schema.interfaces.ITextLine['title'].title,
         description=schema.interfaces.ITextLine['title'].description,
         default=u"",
         required=True,
-        )
+    )
+
 
 class FieldTitleAdapter(object):
     implements(IFieldTitle)
@@ -39,9 +41,11 @@ class FieldTitleAdapter(object):
 
     def _read_title(self):
         return self.field.title
+
     def _write_title(self, value):
         self.field.title = value
     title = property(_read_title, _write_title)
+
 
 class FieldEditForm(AutoExtensibleForm, form.EditForm):
     implements(IFieldEditForm)
@@ -64,7 +68,8 @@ class FieldEditForm(AutoExtensibleForm, form.EditForm):
     @lazy_property
     def additionalSchemata(self):
         schema_context = self.context.aq_parent
-        return [v for k, v in getAdapters((schema_context, self.field), interfaces.IFieldEditorExtender)]
+        return [v for k, v in getAdapters(
+            (schema_context, self.field), interfaces.IFieldEditorExtender)]
 
     def updateFields(self):
         # use a custom 'title' field to make sure it is required
@@ -123,4 +128,6 @@ class EditView(layout.FormWrapper):
 
     @lazy_property
     def label(self):
-        return _(u"Edit Field '${fieldname}'", mapping={'fieldname': self.field.__name__})
+        return _(
+            u"Edit Field '${fieldname}'",
+            mapping={'fieldname': self.field.__name__})

@@ -11,12 +11,11 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from plone.schemaeditor import SchemaEditorMessageFactory as _
 from plone.schemaeditor.interfaces import IFieldFactory
-from plone.schemaeditor.utils import SchemaModifiedEvent
 
 
 class SchemaListing(AutoExtensibleForm, form.Form):
     implements(IEditForm)
-    
+
     ignoreContext = True
     ignoreRequest = True
     template = ViewPageTemplateFile('schema_listing.pt')
@@ -35,7 +34,7 @@ class SchemaListing(AutoExtensibleForm, form.Form):
         for group in self.groups:
             for widget in group.widgets.values():
                 yield widget
-    
+
     def render(self):
         for widget in self._iterateOverWidgets():
             # disable fields from behaviors
@@ -46,7 +45,8 @@ class SchemaListing(AutoExtensibleForm, form.Form):
 
     @memoize
     def _field_factory(self, field):
-        field_identifier = u'%s.%s' % (field.__module__, field.__class__.__name__)
+        field_identifier = u'%s.%s' % (
+            field.__module__, field.__class__.__name__)
         if self.context.allowedFields is not None:
             if field_identifier not in self.context.allowedFields:
                 return None
@@ -100,6 +100,7 @@ class ReadOnlySchemaListing(SchemaListing):
     def edit_url(self, field):
         return
     delete_url = edit_url
+
 
 class SchemaListingPage(FormWrapper):
     """ Form wrapper so we can get a form with layout.
