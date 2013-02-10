@@ -78,6 +78,15 @@ class FieldEditForm(AutoExtensibleForm, form.EditForm):
         # omit the order attribute since it's managed elsewhere
         fields += field.Fields(self._schema).omit(
             'order', 'title', 'default', 'missing_value', 'readonly')
+
+        default_field = self.field.__class__.__new__(self.field.__class__)
+        default_field.__dict__.update(self.field.__dict__)
+        default_field.__name__ = 'default'
+        default_field.title = _(u'Default')
+        default_field.interface = self._schema
+        default_field.required = False
+        fields += field.Fields(default_field)
+
         self.fields = fields
 
         self.updateFieldsFromSchemata()

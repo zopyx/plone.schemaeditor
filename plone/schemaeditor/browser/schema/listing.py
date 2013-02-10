@@ -1,8 +1,7 @@
 from zope.component import queryUtility
-from zope.event import notify
 from zope.interface import implements
 from z3c.form import button, form
-from z3c.form.interfaces import IEditForm, DISPLAY_MODE
+from z3c.form.interfaces import IEditForm
 
 from plone.z3cform.layout import FormWrapper
 from plone.memoize.instance import memoize
@@ -66,32 +65,6 @@ class SchemaListing(AutoExtensibleForm, form.Form):
 
     def delete_url(self, field):
         return '%s/%s/@@delete' % (self.context.absolute_url(), field.__name__)
-
-    @button.buttonAndHandler(_(u'Save Defaults'))
-    def handleSaveDefaults(self, action):
-        # ignore fields from behaviors by setting their widgets' modes
-        # to the display mode while we extract the form values (hack!)
-        widget_modes = {}
-        for widget in self._iterateOverWidgets():
-            if widget.field.interface is not self.context.schema:
-                widget_modes[widget] = widget.mode
-                widget.mode = DISPLAY_MODE
-        
-        data, errors = self.extractData()
-        if errors:
-            self.status = self.formErrorsMessage
-            return
-        
-        for fname, value in data.items():
-            self.context.schema[fname].default = value
-        notify(SchemaModifiedEvent(self.context))
-
-        # restore the actual widget modes so they render a preview
-        for widget, mode in widget_modes.items():
-            widget.mode = mode
-        
-        # update widgets to take the new defaults into account
-        self.updateWidgets()
 
 
 class ReadOnlySchemaListing(SchemaListing):
