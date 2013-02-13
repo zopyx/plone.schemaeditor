@@ -3,6 +3,7 @@ from zope import schema
 from plone.autoform.interfaces import WIDGETS_KEY
 from plone.autoform.widgets import ParameterizedWidget
 from plone.schemaeditor import SchemaEditorMessageFactory as _
+from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 
 
 class ITextWidgetParameters(Interface):
@@ -17,10 +18,31 @@ def get_text_widget_schema(schema_context, field):
     return ITextWidgetParameters
 
 
+
+select_styles = SimpleVocabulary(
+    [SimpleTerm(value=u'auto', title=_(u'Auto')),
+     SimpleTerm(value=u'select', title=_(u'Selection Box')),
+     SimpleTerm(value=u'individual', title=_(u'Checkboxes'))]
+    )
+
+
 class ISelectWidgetParameters(Interface):
+
+    input_format = schema.Choice(
+        title=_(u'Input Format'),
+        description=_(
+            "Determines whether choices are displayed in a single "
+            "control or several individual controls. "
+            "Choose 'auto' to use single controls for small "
+            "numbers of items and a select box for more."
+            ),
+        vocabulary=select_styles,
+        default=_(u'auto'),
+    )
 
     size = schema.Int(
         title=_(u'Size'),
+        description=_(u'Rows to display in selection boxes'),
         default=5,
     )
 
