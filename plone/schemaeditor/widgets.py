@@ -18,7 +18,6 @@ def get_text_widget_schema(schema_context, field):
     return ITextWidgetParameters
 
 
-
 select_styles = SimpleVocabulary(
     [SimpleTerm(value=u'auto', title=_(u'Auto')),
      SimpleTerm(value=u'select', title=_(u'Selection Box')),
@@ -37,7 +36,7 @@ class ISelectWidgetParameters(Interface):
             "numbers of items and a select box for more."
             ),
         vocabulary=select_styles,
-        default=_(u'auto'),
+        default=u'auto',
     )
 
     size = schema.Int(
