@@ -4,6 +4,10 @@ Changelog
 2.0.1 (unreleased)
 ------------------
 
+- Add support for non-destructive editing of attributes with i18n
+  Message values
+  [datakurre]
+
 - Internationalize delete field confirmation message.
   [thomasdesvenain]
 
