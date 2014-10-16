@@ -4,8 +4,9 @@ Changelog
 1.3.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Add support for non-destructive editing of attributes with i18n
+  Message values
+  [datakurre]
 
 1.3.8 (2014-09-07)
 ------------------
